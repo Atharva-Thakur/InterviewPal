@@ -2,3 +2,5 @@ google-generativeai
 gTTs 
 pygame
 pandas
+speechrecognition
+pyaudio
