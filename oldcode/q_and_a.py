@@ -3,7 +3,7 @@ import pandas as pd
 from text import getText
 import random
 
-palm.configure(api_key='AIzaSyAmqklOAqWd6N0OzZ2-CqC1e35LB3vV5XI')
+palm.configure(api_key='API')
 
 models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
 model = models[0].name
