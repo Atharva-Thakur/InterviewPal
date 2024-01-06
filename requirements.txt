@@ -1,5 +1,6 @@
-google-generativeai 
-gTTs 
+google-generativeai
+streamlit
+gTTs
 pygame
 pandas
 speechrecognition
