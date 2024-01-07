@@ -51,15 +51,24 @@ async def main():
         ]
     ).send()
     job_title = job_title_select["job_title"]
+    convo = ""
+    for i in range(5):
 
-    que,ans = generate_ques(job_title)
+        que,ans = generate_ques(job_title)
 
-    res = await cl.AskUserMessage(content=que, timeout=10).send()
-    if res:
-        eval = get_and_eval_response(que,ans,candidate_ans,job_title)
-        await cl.Message(
-            content=eval,
-        ).send()
+        candidate_ans = await cl.AskUserMessage(content=que, timeout=30).send()
+        if candidate_ans:
+            eval = get_and_eval_response(que,ans,candidate_ans,job_title)
+            await cl.Message(
+                content=eval,
+            ).send()
+            convo = convo + "Question " + str(i+1) + ".: " + que + "\nCorrect Answer: " + ans + "\nCandidate Answer: " + candidate_ans['content'] + "\nEvaluation: " + eval + "\n\n"
+    decision = get_Decision(job_title, convo)
+    reason = get_Reason(job_title, convo, decision)
+    elements = [
+            cl.Text(name="reason", content=reason, display="inline")
+        ]
+    await cl.Message(content="Final result", elements=elements).send()
 
 def generate_ques(job_title):
     if job_title == "data scientist":
