@@ -1,5 +1,6 @@
 google-generativeai
 streamlit
+python-dotenv
 gTTs
 pygame
 pandas

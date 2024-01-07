@@ -5,4 +5,4 @@
 2. Add the following lines to the `.env` file:
 
    ```env
-   API_KEY=your-api-key
+   PALM_API_KEY=your-api-key
