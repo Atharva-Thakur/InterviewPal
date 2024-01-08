@@ -1,5 +1,5 @@
 google-generativeai
-streamlit
+chainlit
 python-dotenv
 gTTs
 pygame
