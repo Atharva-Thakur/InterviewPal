@@ -18,15 +18,12 @@ cache = false
 # Show the prompt playground
 prompt_playground = true
 
-<<<<<<< HEAD
 # Process and display HTML in messages. This can be a security risk (see https://stackoverflow.com/questions/19603097/why-is-it-dangerous-to-render-user-generated-html-or-javascript)
 unsafe_allow_html = false
 
 # Process and display mathematical expressions. This can clash with "$" characters in messages.
 latex = false
 
-=======
->>>>>>> 4a6ba6365abbb099fcc137e383f166320ffd9cea
 # Authorize users to upload files with messages
 multi_modal = true
 
@@ -38,11 +35,7 @@ multi_modal = true
 
 [UI]
 # Name of the app and chatbot.
-<<<<<<< HEAD
 name = "InterviewPal"
-=======
-name = "Chatbot"
->>>>>>> 4a6ba6365abbb099fcc137e383f166320ffd9cea
 
 # Show the readme while the conversation is empty.
 show_readme_as_default = true
@@ -88,8 +81,4 @@ hide_cot = false
 
 
 [meta]
-<<<<<<< HEAD
 generated_by = "0.7.700"
-=======
-generated_by = "0.7.501"
->>>>>>> 4a6ba6365abbb099fcc137e383f166320ffd9cea
