@@ -5,11 +5,6 @@ import os
 import random
 import pandas as pd
 
-
-#---Chainlit imports---
-from chainlit.input_widget import Select
-
-
 load_dotenv()
 
 API_KEY=os.environ.get("PALM_API_KEY")
@@ -18,45 +13,36 @@ palm.configure(api_key=API_KEY)
 models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
 model = models[0].name
 
-# def main():
-#     eval ="0"
-    #!Code below works fine
-    # n=0
-    # convo=""
-    # for i in range(5):
-    #     job_title='data scientist'
-    #     que,ans = generate_ques(job_title)
-    #     print(que)
-    #     candidate_ans = input("Enter answer ->")
-    #     eval = get_and_eval_response(que,ans,candidate_ans,job_title)
-    #     print(eval)
-    #     n=n+1
-    #     convo = convo + "Question " + str(n+1) + ".: " + que + "\nCorrect Answer: " + ans + "\nCandidate Answer: " + candidate_ans + "\nEvaluation: " + eval + "\n\n"
-    # decision = get_Decision(job_title, convo)
-    # reason = get_Reason(job_title, convo, decision)
-    # print(reason)
-
-
 @cl.on_chat_start
 async def main():
+    res = await cl.AskUserMessage(content="What is your name?").send()
+    if res:
+        name = res['content']
+        await cl.Message(
+            content=f"Hello {name}",
+        ).send()
 
-    job_title_select = await cl.ChatSettings(
-        [
-            Select(
-                id="job_title",
-                label="Job Title",
-                values=['data scientist', 'cyber security engineer','devops engineer'],
-                initial_index=0,
-            )
-        ]
+    res = await cl.AskActionMessage(
+    content="Pick an job title",
+    actions=[
+      cl.Action(name="Data Scientist", value="Data Scientist", label="Data Scientist"),
+      cl.Action(name="DevOps Engineer", value="DevOps Engineer", label="DevOps Engineer"),
+      cl.Action(name="Cyber Security Engineer", value="Cyber Security Engineer", label="Cyber Security Engineer")
+    ]
     ).send()
-    job_title = job_title_select["job_title"]
+    job_title = res.get("name")
+
+    if res:
+        await cl.Message(
+        content=f"Job title selected: {job_title}",
+        ).send()
+        
     convo = ""
     for i in range(5):
 
         que,ans = generate_ques(job_title)
 
-        candidate_ans = await cl.AskUserMessage(content=que, timeout=30).send()
+        candidate_ans = await cl.AskUserMessage(content=que, timeout=120).send()
         if candidate_ans:
             eval = get_and_eval_response(que,ans,candidate_ans,job_title)
             await cl.Message(
@@ -71,11 +57,11 @@ async def main():
     await cl.Message(content="Final result", elements=elements).send()
 
 def generate_ques(job_title):
-    if job_title == "data scientist":
+    if job_title == "Data Scientist":
         df = pd.read_csv("MLDL-train.csv", encoding='utf-8')
-    elif job_title == "cyber security engineer":
+    elif job_title == "Cyber Security Engineer":
         df = pd.read_csv("Cyber-Data.csv", encoding='utf-8')
-    elif job_title == "devops engineer":
+    elif job_title == "DevOps Engineer":
         df = pd.read_csv("DevOps-Data.csv", encoding='utf-8')
     i = random.randint(0,len(df)-1)
     que = df.iloc[i,0]

@@ -5,7 +5,6 @@ import os
 import random
 import pandas as pd
 
-
 load_dotenv()
 
 API_KEY=os.environ.get("PALM_API_KEY")
@@ -15,35 +14,44 @@ models = [m for m in palm.list_models() if 'generateText' in m.supported_generat
 model = models[0].name
 
 def main():
+    print("start")
     st.header("InterviewPal")
     st.write("")
-    eval ="0"
-
-
-    # job_title = st.selectbox('Select the job title', ('data scientist', 'cyber security engineer'))
-    # if st.button("SEND", use_container_width=True):
-    #     que,ans = generate_ques(job_title)
-    #     st.write(que)
-    #     candidate_ans = st.text_input("Anwer please", placeholder="Answer")
-    #     if st.button("SUBMIT", use_container_width=True):
-    #         eval = get_and_eval_response(que,ans,candidate_ans)
-    # st.write(eval) #!ISSUE -> evaluation is not being printed and the program get restarted.
-
+    eval_result = 0
+    print("select job")
+    job_title = st.selectbox('Select the job title', ('data scientist', 'cyber security engineer'))
+    if st.button("SEND", use_container_width=True):
+        n = 0
+        print("question -",n+1)
+        que, ans = generate_ques(job_title)
+        st.write(str(n+1)+". "+que)
+        candidate_ans = st.text_input("Answer please", placeholder="Answer", key=f"textbox{n}")
+        print("submit?")
+        if st.button("SUBMIT", key=f"submit{n}"):
+            print("submitted")
+            eval_result = get_and_eval_response(que, ans, candidate_ans, job_title)
+            print("eval?")
+            st.write(eval_result)
+            st.stop()
+        print("eval -", eval_result)
+    print("done")
+    print("")
+    
     #!Code below works fine
-    n=0
-    convo=""
-    for i in range(5):
-        job_title='data scientist'
-        que,ans = generate_ques(job_title)
-        print(que)
-        candidate_ans = input("Enter answer ->")
-        eval = get_and_eval_response(que,ans,candidate_ans,job_title)
-        print(eval)
-        n=n+1
-        convo = convo + "Question " + str(n+1) + ".: " + que + "\nCorrect Answer: " + ans + "\nCandidate Answer: " + candidate_ans + "\nEvaluation: " + eval + "\n\n"
-    decision = get_Decision(job_title, convo)
-    reason = get_Reason(job_title, convo, decision)
-    print(reason)
+    # n=0
+    # convo=""
+    # for i in range(5):
+    #     job_title='data scientist'
+    #     que,ans = generate_ques(job_title)
+    #     print(que)
+    #     candidate_ans = input("Enter answer ->")
+    #     eval = get_and_eval_response(que,ans,candidate_ans,job_title)
+    #     print(eval)
+    #     n=n+1
+    #     convo = convo + "Question " + str(n+1) + ".: " + que + "\nCorrect Answer: " + ans + "\nCandidate Answer: " + candidate_ans + "\nEvaluation: " + eval + "\n\n"
+    # decision = get_Decision(job_title, convo)
+    # reason = get_Reason(job_title, convo, decision)
+    # print(reason)
 
 
 def generate_ques(job_title):
