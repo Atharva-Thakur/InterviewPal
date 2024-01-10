@@ -1,2 +1,2 @@
 .env
-.chainlit/
+/.chainlit/config.toml
