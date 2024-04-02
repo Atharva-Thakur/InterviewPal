@@ -5,5 +5,4 @@ gTTs
 pygame
 pandas
 speechrecognition
-pyaudio
 tensorflow

@@ -17,7 +17,7 @@ model = models[0].name
 async def main():
     res = await cl.AskUserMessage(content="What is your name?").send()
     if res:
-        name = res['content']
+        name = res['output']
         await cl.Message(
             content=f"Hello {name}",
         ).send()
@@ -48,7 +48,7 @@ async def main():
             await cl.Message(
                 content=eval,
             ).send()
-            convo = convo + "Question " + str(i+1) + ".: " + que + "\nCorrect Answer: " + ans + "\nCandidate Answer: " + candidate_ans['content'] + "\nEvaluation: " + eval + "\n\n"
+            convo = convo + "Question " + str(i+1) + ".: " + que + "\nCorrect Answer: " + ans + "\nCandidate Answer: " + candidate_ans['output'] + "\nEvaluation: " + eval + "\n\n"
     decision = get_Decision(job_title, convo)
     reason = get_Reason(job_title, convo, decision)
     elements = [
